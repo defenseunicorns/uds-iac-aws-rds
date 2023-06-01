@@ -1,23 +1,5 @@
 data "aws_availability_zones" "available" {}
 
-variable "region" {
-  description = "AWS region"
-  type        = string
-  default     = "us-east-2"
-}
-
-variable "vpc_cidr" {
-  description = "VPC CIDR"
-  type        = string
-  default     = "10.0.0.0/16"
-}
-
-variable "secondary_cidr_blocks" {
-  description = "Secondary CIDR blocks"
-  type        = list(string)
-  default     = ["100.64.0.0/16"] #https://aws.amazon.com/blogs/containers/optimize-ip|109-addresses-usage-by-pods-in-your-amazon-eks-cluster/
-}
-
 module "rds" {
   source = "../.."
 
@@ -25,23 +7,24 @@ module "rds" {
   vpc_id   = module.vpc.vpc_id
 
   database_subnet_group_name = module.vpc.database_subnet_group_name
-  db_name                    = "exdb"
+  db_name                    = var.db_name
   username                   = "exampleadmin"
   engine                     = "postgres"
   engine_version             = "14"
-  family                     = "postgres14" # DB parameter group
-  major_engine_version       = "14"         # DB option group
-  instance_class             = "db.m7g.large"
+  family                     = "postgres14" // DB parameter group
+  major_engine_version       = "14"         // DB option group
+  instance_class             = "db.r5.large"
   allocated_storage          = "10"
   max_allocated_storage      = 20
   identifier                 = "exampleclusterdb"
+  port                       = var.port
 }
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "4.0.1"
 
-  name                  = "example-vpc"
+  name                  = var.vpc_name
   cidr                  = var.vpc_cidr
   secondary_cidr_blocks = var.secondary_cidr_blocks
   azs                   = slice(data.aws_availability_zones.available.names, 0, 3)
