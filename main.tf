@@ -97,7 +97,7 @@ module "security_group" {
 data "aws_caller_identity" "current" {}
 
 module "kms" {
-  source      = "github.com/defenseunicorns/uds-iac-aws-kms"
+  source  = "github.com/defenseunicorns/uds-iac-aws-kms?ref=v0.0.1-alpha"
 
   count = var.automated_backups_replication_enabled ? 1 : 0
 
