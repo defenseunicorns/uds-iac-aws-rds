@@ -116,4 +116,6 @@ module "db_automated_backups_replication" {
 
   source_db_instance_arn = module.db.db_instance_arn
   kms_key_arn            = module.kms[0].kms_key_arn
+
+  provider = aws.replication_region
 }

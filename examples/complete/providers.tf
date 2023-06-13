@@ -12,3 +12,7 @@ provider "aws" {
   region = var.region
 }
 
+provider "aws" {
+  alias  = "replication_region"
+  region = var.replication_region
+}
