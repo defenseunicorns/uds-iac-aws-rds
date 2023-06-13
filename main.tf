@@ -79,8 +79,8 @@ module "security_group" {
   # ingress
   ingress_with_cidr_blocks = [
     {
-      from_port   = 5432
-      to_port     = 5432
+      from_port   = var.port
+      to_port     = var.port
       protocol    = "tcp"
       description = "PostgreSQL access from within VPC"
       cidr_blocks = var.vpc_cidr
