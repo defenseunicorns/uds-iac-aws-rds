@@ -4,6 +4,12 @@ variable "region" {
   default     = "us-east-2"
 }
 
+variable "replication_region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-west-2"
+}
+
 variable "vpc_cidr" {
   description = "VPC CIDR"
   type        = string

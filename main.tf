@@ -106,6 +106,10 @@ module "kms" {
   key_owners                = [data.aws_caller_identity.current.arn]
 
   tags = var.tags
+
+  providers = {
+    aws = aws.replication_region
+  }
 }
 
 module "db_automated_backups_replication" {
@@ -117,5 +121,7 @@ module "db_automated_backups_replication" {
   source_db_instance_arn = module.db.db_instance_arn
   kms_key_arn            = module.kms[0].kms_key_arn
 
-  provider = aws.replication_region
+  providers = {
+    aws = aws.replication_region
+  }
 }

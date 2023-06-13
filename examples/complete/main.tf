@@ -1,29 +1,5 @@
 data "aws_availability_zones" "available" {}
 
-variable "region" {
-  description = "AWS region"
-  type        = string
-  default     = "us-east-2"
-}
-
-variable "replication_region" {
-  description = "AWS region"
-  type        = string
-  default     = "us-west-2"
-}
-
-variable "vpc_cidr" {
-  description = "VPC CIDR"
-  type        = string
-  default     = "10.0.0.0/16"
-}
-
-variable "secondary_cidr_blocks" {
-  description = "Secondary CIDR blocks"
-  type        = list(string)
-  default     = ["100.64.0.0/16"] #https://aws.amazon.com/blogs/containers/optimize-ip|109-addresses-usage-by-pods-in-your-amazon-eks-cluster/
-}
-
 module "rds" {
   source = "../.."
 
@@ -42,6 +18,10 @@ module "rds" {
   max_allocated_storage      = 20
   identifier                 = "exampleclusterdb"
   port                       = var.port
+
+  providers = {
+    aws.replication_region = aws.replication_region
+  }
 }
 
 module "vpc" {
