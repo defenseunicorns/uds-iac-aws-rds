@@ -1,6 +1,6 @@
 module "db" {
   source  = "terraform-aws-modules/rds/aws"
-  version = "5.9.0"
+  version = "6.0.0"
 
   identifier = var.identifier
 
@@ -110,7 +110,7 @@ module "kms" {
 
 module "db_automated_backups_replication" {
   source  = "terraform-aws-modules/rds/aws//modules/db_instance_automated_backups_replication"
-  version = "5.9.0"
+  version = "6.0.0"
 
   count = var.automated_backups_replication_enabled ? 1 : 0
 
